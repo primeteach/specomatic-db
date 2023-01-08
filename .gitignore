@@ -1,0 +1,11 @@
+/node_modules
+/target
+/public/js
+/.clj-kondo/.cache
+.cpcache
+.shadow-cljs
+.nrepl-port
+junit.xml
+yarn.lock
+yarn-error.log
+package-lock.json

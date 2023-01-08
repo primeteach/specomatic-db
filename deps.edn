@@ -1,0 +1,32 @@
+{:paths   ["src" "resources"]
+ :deps    {org.clojure/clojure                     {:mvn/version "1.11.1"}
+           com.primeteach/specomatic               {:mvn/version "0.1.0"}
+           com.github.seancorfield/honeysql        {:mvn/version "2.4.962"}
+           com.layerware/hugsql                    {:mvn/version "0.5.3"}
+           com.layerware/hugsql-adapter-next-jdbc  {:mvn/version "0.5.3"}
+           pandect/pandect                         {:mvn/version "1.0.2"}
+           seancorfield/next.jdbc                  {:mvn/version "1.2.659"}
+           exoscale/seql                           {:mvn/version "0.2.2"}
+           com.nedap.staffing-solutions/speced.def {:mvn/version "2.1.1"}}
+ :aliases {:codox    {:extra-deps {codox/codox {:mvn/version "0.10.8"}}
+                      :exec-fn    codox.main/generate-docs
+                      :exec-args  {:source-paths ["src"]}}
+           :outdated {:deps      {olical/depot {:mvn/version "2.3.0"}}
+                      :main-opts ["-m" "depot.outdated.main" "-a" "outdated" "-a" "test"]}
+           :deploy   {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
+                      :exec-fn    deps-deploy.deps-deploy/deploy
+                      :exec-args  {:installer      :remote
+                                   :sign-releases? true
+                                   :artifact       "target/specomatic-db.jar"}}
+           :jar      {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.303"}}
+                      :exec-fn      hf.depstar/jar
+                      :exec-args    {}}
+           :test     {:extra-paths ["test-common" "test"]
+                      :extra-deps  {org.firebirdsql/firebird-testcontainers-java {:mvn/version "1.2.0"}
+                                    org.firebirdsql.jdbc/jaybird-jdk18           {:mvn/version "2.2.15"}
+                                    org.postgresql/postgresql                    {:mvn/version "42.5.1"}
+                                    org.testcontainers/postgresql                {:mvn/version "1.17.6"}}}
+           :runner   {:main-opts  ["-m" "kaocha.runner"]
+                      :extra-deps {lambdaisland/kaocha           {:mvn/version "1.71.1119"}
+                                   lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}
+                                   lambdaisland/kaocha-junit-xml {:mvn/version "1.17.101"}}}}}

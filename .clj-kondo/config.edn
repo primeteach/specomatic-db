@@ -1,0 +1,5 @@
+{:lint-as {nedap.speced.def/defn clojure.core/defn}
+ :linters {:missing-docstring            {:level :warning}
+           :unsorted-required-namespaces {:level :warning}
+           :single-key-in                {:level :warning}
+           :shadowed-var                 {:level :warning}}}
