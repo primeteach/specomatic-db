@@ -1,5 +1,8 @@
 # specomatic-db
 
+[![cljdoc badge](https://cljdoc.org/badge/com.primeteach/specomatic-db)](https://cljdoc.org/d/com.primeteach/specomatic-db)
+[![Clojars Project](https://img.shields.io/clojars/v/com.primeteach/specomatic-db.svg)](https://clojars.org/com.primeteach/specomatic-db)
+
 Define your entities and relationships using [clojure.spec](https://clojure.org/guides/spec) and / or [specomatic](https://github.com/primeteach/specomatic), get an immutable SQL database that understands [seql](https://github.com/exoscale/seql) and supports access control.
 
 ## Introduction
