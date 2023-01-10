@@ -139,8 +139,6 @@ The following examples use the data from the `specomatic-db.core-test` integrati
             :actors    [#:actor{:name "Keanu Reeves"}
                         #:actor{:name "Laurence Fishburne"}]})
 
-=> (#:reviewer{:name "Jane", :id 1} #:reviewer{:name "John", :id 2})
-
 ;; Single entities can also be queried by id:
 
 (sdb/by-id env ::schema/reviewer 1 [:reviewer/name])
