@@ -28,7 +28,7 @@
 (sd/defn init!
   "Given the environment `env`, does all necessary initialization.
    To skip automatic database schema migration, pass `{:skip-migration? true}` as a second argument.
-  Currently validates the schem, initializes transaction infrastructure, ensures access control views exist and registers coercion functions."
+  Currently validates the schema, initializes transaction infrastructure, ensures access control views exist and registers coercion functions."
   ([^::sp/env env]
    (init! env {}))
   ([^::sp/env env {:keys [:skip-migration?]}]

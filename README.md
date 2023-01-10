@@ -9,7 +9,7 @@ Define your entities and relationships using [clojure.spec](https://clojure.org/
 
 Specomatic-db builds on the abstract base library [specomatic](https://github.com/primeteach/specomatic). The core concept is the specomatic-db schema that extends the specomatic schema with persistence-specific information.
 
-From the schema, specomatic-db creates an immutable SQL database (with full historisation) and a [seql](https://github.com/exoscale/seql) schema. Entities and their history are retrieved using seql and persisted with a CRUD-flavored mutation system. Both retrieving and persisting can be restricted by attribute- and role-based access control rules.
+From the schema, specomatic-db creates an immutable SQL database (with full historisation) and a [seql](https://github.com/exoscale/seql) schema. Entities and their history are retrieved using seql and persisted with a CRUD-flavored mutation system. Both retrieving and persisting can be restricted by attribute- and permission-based access control rules.
 
 ## Design goals
 
@@ -343,9 +343,9 @@ Specomatic-db entity type definitions extend the [specomatic entity type definit
  :query-name          :movie}
 ```
 
-### Field type definitions
+### Field definitions
 
-Specomatic-db field type definitions extend the [specomatic field type definitions](https://github.com/primeteach/specomatic#field-type-definitions) with the persistence-specific `:column-name`, `:db-via`, `:join-table`, `join-table-id-field`, `:not-persistent?`, `:owns-relation?` and `save-related?`.
+Specomatic-db field definitions extend the [specomatic field definitions](https://github.com/primeteach/specomatic#field-definitions) with the persistence-specific `:column-name`, `:db-via`, `:join-table`, `join-table-id-field`, `:not-persistent?`, `:owns-relation?` and `save-related?`.
 
 For example, the definition of the simple (non-relational) field `:review/stars` looks like this:
 
