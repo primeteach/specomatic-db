@@ -9,7 +9,8 @@
    [specomatic-db.db.postgres.sql  :as db-postgres]
    [specomatic-db.db.postgres.util :refer [postgresql]]
    [specomatic.core                :as sc]
-   [specomatic.field-def           :as sf]))
+   [specomatic.field-def           :as sf]
+   [specomatic.spec                :as sp]))
 
 (defmethod migration/column-def postgresql
   [db schema table-name field-keyword
@@ -27,7 +28,7 @@
                         :column   column-name
                         :target   (cnv/etype->table-name db target (sc/etype-def schema target))}})))
     {:main (first (db-postgres/column-def {:name (cnv/field->column-name db field-keyword field-def)
-                                           :type (migration/column-type field-def)}))}))
+                                           :type (migration/sql-type postgresql (sf/dispatch field-def))}))}))
 
 (defn- constraints-ddl
   [table-name existing-constraints constraints-params]
@@ -68,16 +69,16 @@
                                                                  field
                                                                  field-def
                                                                  {:historical? true}))
-        id-spec                          (migration/column-type (id-field field-defs))
+        id-dispatch                      (sf/dispatch (id-field field-defs))
         id-column                        (cnv/field->column-name db id-field nil)
         column-ddl                       (conj column-ddl-without-id
                                                {:main (first (db-postgres/id-column-def
                                                               {:name id-column
-                                                               :type id-spec}))})
+                                                               :type "serial primary key"}))})
         historical-column-ddl            (conj historical-column-ddl-without-id
                                                {:main (first (db-postgres/column-def
                                                               {:name id-column
-                                                               :type id-spec}))})
+                                                               :type (migration/sql-type postgresql id-dispatch)}))})
         column-defs                      (map :main column-ddl)
         historical-column-defs           (map :main historical-column-ddl)]
     (when (seq column-ddl)
@@ -169,3 +170,11 @@
 (defmethod migration/clear-transaction-system-txid! postgresql
   [db]
   (db-postgres/clear-transaction-system-txid db))
+
+(defmethod migration/sql-type [postgresql ::sp/integer]
+  [_ _]
+  "integer")
+
+(defmethod migration/sql-type [postgresql 'integer?]
+  [_ _]
+  "integer")

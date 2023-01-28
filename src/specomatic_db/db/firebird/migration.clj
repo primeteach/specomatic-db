@@ -9,7 +9,8 @@
    [specomatic-db.db.generic       :as db-generic]
    [specomatic-db.db.migration     :as migration]
    [specomatic.core                :as sc]
-   [specomatic.field-def           :as sf]))
+   [specomatic.field-def           :as sf]
+   [specomatic.spec                :as sp]))
 
 (defmethod migration/column-def firebirdsql
   [db schema table-name field-keyword
@@ -27,7 +28,7 @@
                         :column   column-name
                         :target   (cnv/etype->table-name db target (sc/etype-def schema target))}})))
     {:main (first (db-firebird/column-def {:name (cnv/field->column-name db field-keyword field-def)
-                                           :type (migration/column-type field-def)}))}))
+                                           :type (migration/sql-type firebirdsql (sf/dispatch field-def))}))}))
 
 (defn- constraints-ddl
   [table-name existing-constraints constraints-params]
@@ -154,3 +155,11 @@
 (defmethod migration/clear-transaction-system-txid! firebirdsql
   [db]
   (db-firebird/clear-transaction-system-txid db))
+
+(defmethod migration/sql-type [firebirdsql ::sp/integer]
+  [_ _]
+  "integer")
+
+(defmethod migration/sql-type [firebirdsql 'integer?]
+  [_ _]
+  "integer")

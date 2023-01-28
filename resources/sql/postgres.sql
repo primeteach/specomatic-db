@@ -42,28 +42,14 @@ on conflict (:i:entity-idfield, :i:target-idfield) do nothing
 -- MIGRATIONS --
 
 -- :snip column-def
-/* :require [specomatic.spec :as-alias sp]
-            [specomatic-db.db.migration :as migration]
-            [specomatic-db.db.firebird.util :refer [firebirdsql]] */
-:i:name
-/*~ (condp = (:type params)
-      ::sp/integer "integer"
-      'integer? "integer"
-      'string? "varchar(255)"
-      'my-boolean? "char(1)"
-      (migration/sql-type firebirdsql (:type params))) ~*/
+:i:name :sql:type
 
 -- :snip ref-column-def
 :i:name integer
 
 -- :snip id-column-def
 /* :require [specomatic.spec :as-alias sp] */
-:i:name
-/*~ (condp = (:type params)
-      ::sp/integer "serial primary key"
-      'integer? "serial primary key"
-      "serial primary key") ~*/
-
+:i:name serial primary key
 
 -- :name ensure-table-transaction :!
 -- :doc ensure transaction table exists
