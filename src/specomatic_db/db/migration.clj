@@ -14,9 +14,9 @@
   get-dbtype)
 
 (defmulti sql-type
-  "Returns the sql type for a database type and spec."
-  (fn [dbtype field-spec]
-    [dbtype field-spec]))
+  "Returns the sql type for a database type and field spec dispatch value (keyword or description)."
+  (fn [dbtype dispatch]
+    [dbtype dispatch]))
 
 (defmethod sql-type :default
   [_ _]
@@ -52,13 +52,6 @@
 (defmulti clear-transaction-system-txid!
   "Clears all system txids from the transaction table."
   get-dbtype)
-
-(defn column-type
-  "Returns the type to pass to column-def snippet"
-  [field-def]
-  (if (sf/reference? field-def)
-    :reference
-    (sf/dispatch field-def)))
 
 (defn- diff-etypes
   [db tables existing-constraints schema etypes-and-reference-colls]

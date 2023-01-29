@@ -42,16 +42,7 @@ matching (:i:entity-idfield, :i:target-idfield)
 -- MIGRATIONS --
 
 -- :snip column-def
-/* :require [specomatic.spec :as-alias sp]
-            [specomatic-db.db.migration :as migration]
-            [specomatic-db.db.firebird.util :refer [firebirdsql]] */
-:i:name
-/*~ (condp = (:type params)
-      ::sp/integer "integer"
-      'integer? "integer"
-      'string? "varchar(255)"
-      'my-boolean? "char(1)"
-      (migration/sql-type firebirdsql (:type params))) ~*/
+:i:name :sql:type
 
 -- :snip ref-column-def
 :i:name integer
