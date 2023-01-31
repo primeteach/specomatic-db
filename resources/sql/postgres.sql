@@ -6,7 +6,7 @@
 /* :require [hugsql.parameters :refer [identifier-param-quote]] */
 insert into :i:table (:i*:cols)
 values (:v*:vals)
-returning /*~ (identifier-param-quote (:id-field params) options) ~*/ AS id, (select txid from get_transaction(txid_current())), (select txts from get_transaction(txid_current()))
+returning /*~ (identifier-param-quote (:id-field params) options) ~*/ AS id, txid_current() as txid, current_timestamp as txts
 
 -- :name update! :<! :1
 -- :doc Updates a single record in `table` by `id`.
@@ -22,7 +22,7 @@ update :i:table set
 where /*~ (identifier-param-quote (:id-field params) options) ~*/ = :id
 /*~ (when (:ac-conditions params)
 " and (:snip:ac-conditions)") ~*/
-returning (select txid from get_transaction(txid_current())), (select txts from get_transaction(txid_current()))
+returning txid_current() as txid, current_timestamp as txts
 
 -- :name delete! :<! :1
 -- :doc Delete a single record in `table` by `id`.
@@ -32,7 +32,7 @@ delete from :i:table
 where /*~ (identifier-param-quote (:id-field params) options) ~*/ = :id
 /*~ (when (:ac-conditions params)
 " and (:snip:ac-conditions)") ~*/
-returning /*~ (identifier-param-quote (:id-field params) options) ~*/, (select txid from get_transaction(txid_current())), (select txts from get_transaction(txid_current()))
+returning /*~ (identifier-param-quote (:id-field params) options) ~*/, txid_current() as txid, current_timestamp as txtsx
 
 -- :name upsert-reference-coll-element! :! :n
 insert into :i:table (:i:entity-idfield, :i:target-idfield)
@@ -110,9 +110,11 @@ CREATE or replace function  /*~ (identifier-param-quote (str (:table params) "_h
   declare current_txid int;
   declare current_txts timestamp;
 BEGIN
-  select txid, txts into current_txid, current_txts from get_transaction(txid_current());
+  current_txid \:= txid_current();
 
- if (tg_op = 'INSERT' or tg_op = 'UPDATE') then
+  current_txts \:= current_timestamp;
+
+  if (tg_op = 'INSERT' or tg_op = 'UPDATE') then
        update /*~ (identifier-param-quote (str (:table params) "_h") options) ~*/
     set txid_until = current_txid, txts_until = current_txts
     where /*~ (identifier-param-quote (:id-field params) options) ~*/ = new./*~ (identifier-param-quote (:id-field params) options) ~*/
