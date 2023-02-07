@@ -8,7 +8,7 @@
    [specomatic-db.test.schema  :as-alias schema])
   (:import [java.sql SQLException]
            [org.firebirdsql.testcontainers FirebirdContainer]
-           [org.testcontainers.containers PostgreSQLContainer]))
+           [org.testcontainers.containers MySQLContainer PostgreSQLContainer]))
 
 ; an extremely simplified example of a movie catalog.
 
@@ -17,6 +17,14 @@
          (doto (FirebirdContainer.)
           (.setDockerImageName "jacobalberty/firebird:2.5-sc")
           (.withDatabaseName "test.fdb")
+          (.withUsername "sysdba")
+          (.withPassword "masterke")))
+
+(defonce ^{:doc "Database test container."}
+         ^MySQLContainer mysql-container
+         (doto (MySQLContainer.)
+          (.setDockerImageName "mysql:8")
+          (.withDatabaseName "test")
           (.withUsername "sysdba")
           (.withPassword "masterke")))
 
@@ -546,6 +554,10 @@
 
 (use-fixtures :each
               #(do
+                 (start! mysql-container)
+                 (try (%)
+                      (finally
+                       (stop! mysql-container)))
                  (start! postgres-container)
                  (try (%)
                       (finally

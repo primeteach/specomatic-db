@@ -25,7 +25,7 @@
                       :extra-deps  {org.firebirdsql/firebird-testcontainers-java {:mvn/version "1.2.0"}
                                     org.firebirdsql.jdbc/jaybird-jdk18           {:mvn/version "2.2.15"}
                                     com.mysql/mysql-connector-j                  {:mvn/version "8.0.32"}
-                                    org.testcontainers/mariadb                   {:mvn/version "1.17.6"}
+                                    org.testcontainers/mysql                     {:mvn/version "1.17.6"}
                                     org.postgresql/postgresql                    {:mvn/version "42.5.1"}
                                     org.testcontainers/postgresql                {:mvn/version "1.17.6"}}}
            :runner   {:main-opts  ["-m" "kaocha.runner"]
