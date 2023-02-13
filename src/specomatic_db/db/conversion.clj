@@ -116,13 +116,15 @@
   (when-let [field-defs (sc/field-defs schema etype)]
     (let [entity-id (sc/id-field schema etype)
           fields    (into {}
-                          (map (fn [[field field-def]]
-                                 (when-not (or (sf/inverse? field-def)
-                                               (sf/reference-coll? field-def))
-                                   (when-some [v (get entity field)]
+                          (map (fn [[field value]]
+                                 (when-let [field-def (field field-defs)]
+                                   (when-not (or (sf/inverse? field-def)
+                                                 (sf/reference-coll? field-def))
                                      [(field->column-name db field field-def)
-                                      (entity-field-value->db-field-value schema (sf/dispatch field-def) v)]))))
-                          field-defs)]
+                                      (entity-field-value->db-field-value schema
+                                                                          (sf/dispatch field-def)
+                                                                          value)]))))
+                          entity)]
       (assoc fields
              (etype->id-column db schema etype)
              (get entity entity-id)))))
