@@ -93,7 +93,7 @@
 
 (defn- entities
   "Returns a sequence of seql entity definitions for the given `config`.
-  Optionally accepts a `query-table-keyword` function parameter for mapping entity keywords to table / view keywords for querying (default: `cnv/entity->query-table-keyword`)"
+  Optionally accepts a `query-table-keyword` function parameter for mapping entity keywords to table / view keywords for querying (default: `cnv/etype->query-table-keyword`)"
   ([config]
    (entities config cnv/etype->query-table-keyword))
   ([config query-table-keyword]
