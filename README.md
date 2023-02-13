@@ -306,7 +306,7 @@ Directors can now only read their own movies:
 
 ### Access control for fields
 
-Non-root users can only query the fields that are defined in the specomatic-db schema for the entities they are allowed to read. For root users, no such restriction exists: They can query for any field that exist in the database.
+Non-root users can only query the fields that are defined in the specomatic-db schema for the entities they are allowed to read. For root users, no such restriction exists: They can query for any field that exists in the database.
 
 ### Access control for conditions
 
@@ -400,7 +400,6 @@ The following mapping is built in for both implemented database backends:
 ## Plans
 
 * Support non-integer ids.
-* Migrations: Create foreign keys at the end to reduce dependency on order
 * Move non-database related parts of specomatic-db access control to specomatic
 * Maybe: Use Postgres Temporal Tables extension
 * Maybe: Use Postgres row-level security
