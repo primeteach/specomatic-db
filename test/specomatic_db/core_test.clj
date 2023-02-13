@@ -384,7 +384,7 @@
                                                   [:review/id {:review/paragraphs [:paragraph/id :paragraph/content]}]
                                                   [[:= :review/reviewer jane-reviewer-id]]))
                 janes-revised-review (-> janes-review
-                                         (assoc-in [:review/paragraphs 0 ::core/change] :delete))
+                                         (assoc-in [:review/paragraphs 0 ::core/delete] true))
                 johns-review         (first
                                       (core/query env
                                                   ::schema/review
